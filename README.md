@@ -58,6 +58,14 @@
   
 ## 2021.09.13 ~ 2021.09.19
   
+- 브루트 포스 알고리즘 특집 문제
+  
+  - 1. [백준 1018번-bf(brute-force)](https://www.acmicpc.net/problem/1018) 
+  - 2. [백준 1436번-bf(brute-force)](https://www.acmicpc.net/problem/1436)
+  - 3. [백준 2798번-bf(brute-force)](https://www.acmicpc.net/problem/2798)
+   
+  - 브루트포스 알고리즘 공부 후 풀어보시길 바랍니다
+  
 </details>
 <details>
   <summary> 2021-09-03주차 미션 </summary>
