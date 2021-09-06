@@ -1,74 +1,37 @@
-# 문제-10845 큐
+# 문제-1920 수 찾기
+- 이분 탐색 알고리즘 응용의 기본적인 문제이다.
 
-- 자료구조 queue를 구현하는 문제이다.
-- 단순 stl을 사용해도 되지만, queue의 구조를 다시한번 뇌에 새겨두기 위해 class로 구현해봤다.
+- left, right, mid를 구현해주어 이분 탐색 알고리즘을 활용한다.
 
-- queue를 class로 선언한 뒤, queue의 구조는 front, rear로 이루어져 있기에 인수로 선언해준다.
-- 이후 포인터 배열을 선언해주고 size만큼 동적할당 해준다.
+- 우선 비교할 수가 저장할 vector와, 주어진 수를 저장할 vector 총 두개를 선언하여 넣고 첫번째 vector만 정렬해준다.
 
-- 문제에서 요구하는 기본적인 함수들을 구현해준다.
-	- push나 pop은 queue가 가득찼는지, 비어있는지 확인 해준뒤, rear과 front를 이용해 넣거나 빼주면 된다.
-	- front, back, size는 포인터 배열에서 해당 위치를 반환하여 값을 받아주면 된다.
+- 이후 이분탐색을 통해 두번째 vector에 있는 인수를 첫번째의 수와 비교하며 없으면 0을 있으면 1을 출력해준다. 
+	- left=공간의 최소값, right=공간의 최대값, mid= (left+right)/2
+	- value>mid => left=mid+1
+	- value<mid => right=mid-1
+	- 다음 규칙을 구현해준다.
 ```C
-class Queue {
-	int front, rear, size;
-	int* arr;
-public:
-	Queue(int n) { front = 0; rear = 0; size = n; arr = new int[size]; }
-	~Queue() { delete[] arr; }
+	int n, tmp;
+	vector<int> v1, v2;
+	cin >> n;
+	for (int i = 0; i < n; i++) { cin >> tmp; v1.push_back(tmp); }
+	sort(v1.begin(), v1.end());
+	cin >> n;
+	for (int i = 0; i < n; i++) { cin >> tmp; v2.push_back(tmp); }
 
-	bool is_empty() {
-		if (front == rear)
-			return true;
-		return false;
-	}
-	bool is_full() {
-		if (rear + 1 == front)
-			return true;
-		return false;
-	}
-	void push() {
-		if (!is_full()) {
-			int tmp;
-			cin >> tmp;
-			arr[rear++] = tmp;
+	for (int i = 0; i < v2.size(); i++) {
+		int left=0, right=v1.size()-1, mid, answer = 0;
+		while (left <= right) {
+			mid = (right + left) / 2;
+			if (v2[i] > v1[mid])
+				left = mid + 1;
+			else if (v2[i] < v1[mid])
+				right = mid - 1;
+			else
+			{
+				answer = 1; break;
+			}
 		}
+		cout << answer << '\n';
 	}
-	int pop() {
-		if (!is_empty())
-			return arr[front++];
-		return -1;
-	}
-	int Size() {
-		return rear - front;
-	}
-	int Front() {
-		if (!is_empty())
-			return arr[front];
-		return -1;
-	}
-	int back() {
-		if (!is_empty())
-			return arr[rear - 1];
-		return -1;
-	}
-};
-```
-
-- 이후 메인 함수에서 구현한 queue 클래스를 이용하여 문제를 구현하면 된다.
-
-```C
-int n, tmp;
-string mod;
-cin >> n;
-Queue q(n);
-for (int i = 0; i < n; i++) {
-	cin >> mod;
-	if (mod == "push") q.push();
-	else if (mod == "pop") cout << q.pop() << '\n';
-	else if (mod == "size") cout << q.Size() << '\n';
-	else if (mod == "empty") cout << q.is_empty() << '\n';
-	else if (mod == "front") cout << q.Front() << '\n';
-	else if (mod == "back") cout << q.back() << '\n';
-}
 ```
